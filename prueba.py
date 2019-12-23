@@ -26,6 +26,7 @@ frame_width = int(cap.get(3))
 frame_height = int(cap.get(4))
 print("Empezando a leer video...")
 
+i=0
 while(True):
     ret, frame = cap.read()
 
@@ -43,6 +44,19 @@ while(True):
                                                                     input_image=frame,
                                                                     output_type="array")
         
+        if detection: 
+            #print(detection)
+            #print(type(detection))
+            box_points = detection[0]["box_points"]
+            x = box_points[0]
+            y = box_points[1]
+            xw = box_points[2]
+            yh = box_points[3]
+            auto = frame[y:yh, x:xw]
+            #frame = cv2.rectangle(frame, start_point, end_point, (125, 125, 0), 2)
+            cv2.imwrite("auto{}.jpg".format(i), auto) 
+            i += 1
+
         cv2.imshow('IP Publica', frame)
         cv2.imshow('Deteccion', out_frame)
 
